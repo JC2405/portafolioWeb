@@ -1,0 +1,82 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-playfair), 'Georgia', serif;
+  --font-sans: var(--font-inter), 'system-ui', sans-serif;
+  --font-serif: var(--font-playfair), 'Georgia', serif;
+  --font-script: var(--font-satisfy), cursive;
+
+  /* Brand palette */
+  --color-verde: #2d5016;
+  --color-verde-light: #3d6b1f;
+  --color-rojo: #8b2012;
+  --color-cafe: #5c3a1e;
+  --color-cafe-dark: #3b2010;
+  --color-azul: #1a4a6b;
+  --color-crema: #f5efe0;
+  --color-amarillo: #e0a92e;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #2b2018;
+  --card: #ffffff;
+  --card-foreground: #2b2018;
+  --popover: #ffffff;
+  --popover-foreground: #2b2018;
+  --primary: #2d5016;
+  --primary-foreground: #f5efe0;
+  --secondary: #f5efe0;
+  --secondary-foreground: #2d5016;
+  --muted: #f5efe0;
+  --muted-foreground: #5c3a1e;
+  --accent: #8b2012;
+  --accent-foreground: #f5efe0;
+  --destructive: #8b2012;
+  --border: #e3dac7;
+  --input: #e3dac7;
+  --ring: #2d5016;
+  --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+}
