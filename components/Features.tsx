@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Mountain, Landmark, UtensilsCrossed } from 'lucide-react'
+import { useWireframe } from './WireframeContext'
 
 const features = [
   {
@@ -21,18 +22,16 @@ const features = [
   },
 ]
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.15 } },
-}
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-}
+const container = { hidden: {}, show: { transition: { staggerChildren: 0.15 } } }
+const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }
 
 export default function Features() {
+  const { isWireframe: wf } = useWireframe()
   return (
-    <section id="cultura" className="bg-crema py-20 md:py-28">
+    <section
+      id="cultura"
+      className={`py-20 md:py-28 transition-colors duration-500 ${wf ? 'bg-gray-50' : 'bg-crema'}`}
+    >
       <div className="mx-auto max-w-6xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -41,10 +40,19 @@ export default function Features() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="font-script text-2xl text-rojo">Tres razones para venir</p>
-          <h2 className="mt-2 text-balance font-serif text-3xl font-bold text-verde md:text-4xl">
-            Un destino que despierta los sentidos
-          </h2>
+          {wf ? (
+            <>
+              <div className="mx-auto h-5 w-40 rounded bg-gray-300" />
+              <div className="mx-auto mt-3 h-8 w-72 rounded bg-gray-400" />
+            </>
+          ) : (
+            <>
+              <p className="font-script text-2xl text-rojo">Tres razones para venir</p>
+              <h2 className="mt-2 text-balance font-serif text-3xl font-bold text-verde md:text-4xl">
+                Un destino que despierta los sentidos
+              </h2>
+            </>
+          )}
         </motion.div>
 
         <motion.div
@@ -58,17 +66,32 @@ export default function Features() {
             <motion.div
               key={f.title}
               variants={item}
-              className="rounded-2xl bg-background p-8 text-center shadow-sm transition-shadow hover:shadow-md"
+              className={`rounded-2xl p-8 text-center transition-shadow ${
+                wf
+                  ? 'border-2 border-gray-300 bg-white shadow-none'
+                  : 'bg-background shadow-sm hover:shadow-md'
+              }`}
             >
-              <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-verde/10 text-verde">
+              <div
+                className={`mx-auto flex size-16 items-center justify-center rounded-full ${
+                  wf ? 'border-2 border-gray-400 bg-gray-100 text-gray-500' : 'bg-verde/10 text-verde'
+                }`}
+              >
                 <f.icon className="size-8" strokeWidth={1.5} />
               </div>
-              <h3 className="mt-6 font-serif text-xl font-bold text-cafe">
-                {f.title}
-              </h3>
-              <p className="mt-3 text-pretty leading-relaxed text-muted-foreground">
-                {f.desc}
-              </p>
+              {wf ? (
+                <>
+                  <div className="mx-auto mt-6 h-5 w-36 rounded bg-gray-400" />
+                  <div className="mx-auto mt-3 h-3 w-full rounded bg-gray-200" />
+                  <div className="mx-auto mt-2 h-3 w-5/6 rounded bg-gray-200" />
+                  <div className="mx-auto mt-2 h-3 w-3/4 rounded bg-gray-200" />
+                </>
+              ) : (
+                <>
+                  <h3 className="mt-6 font-serif text-xl font-bold text-cafe">{f.title}</h3>
+                  <p className="mt-3 text-pretty leading-relaxed text-muted-foreground">{f.desc}</p>
+                </>
+              )}
             </motion.div>
           ))}
         </motion.div>

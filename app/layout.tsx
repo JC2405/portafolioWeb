@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Inter, Satisfy } from 'next/font/google'
 import './globals.css'
+import { WireframeProvider } from '@/components/WireframeContext'
 
 const playfair = Playfair_Display({
   variable: '--font-playfair',
@@ -69,7 +70,9 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} ${satisfy.variable} bg-background`}
     >
       <body className="font-sans antialiased">
-        {children}
+        <WireframeProvider>
+          {children}
+        </WireframeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
