@@ -1,97 +1,215 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mountain, Landmark, UtensilsCrossed } from 'lucide-react'
-import { useWireframe } from './WireframeContext'
+import { Users, Lightbulb, MessageSquare } from 'lucide-react'
 
-const features = [
+// Tecnologías con íconos SVG reales y colores de marca
+const technologies = [
   {
-    icon: Mountain,
-    title: 'Naturaleza Única',
-    desc: 'El Lago de Tota, el majestuoso Páramo de Ocetá y termales naturales que renuevan el cuerpo y el alma.',
+    name: 'PHP',
+    bg: '#8892BF',
+    textColor: '#fff',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
+        <path d="M12 5.793C5.372 5.793 0 8.524 0 12s5.372 6.207 12 6.207 12-2.731 12-6.207-5.372-6.207-12-6.207zm-1.147 8.74H9.26l.434-2.18H8.098l-.433 2.18H6.07l1.109-5.575h1.6l-.391 1.972h1.6l.39-1.972h1.6l-1.116 5.575zm4.244 0l.194-.975h-.018c-.403.718-1.008 1.083-1.814 1.083-.695 0-1.224-.206-1.588-.619-.364-.412-.546-.993-.546-1.743 0-.533.098-1.028.295-1.486.196-.458.485-.826.866-1.106.382-.28.833-.42 1.353-.42.65 0 1.132.255 1.447.765h.017l.422-2.074h1.578l-1.11 5.575h-1.096zm.403-2.088c0-.345-.088-.622-.265-.833-.176-.21-.42-.316-.73-.316-.31 0-.572.093-.787.279-.215.185-.376.445-.483.782-.074.234-.11.463-.11.688 0 .34.089.613.268.82.18.207.43.31.75.31.31 0 .573-.094.788-.283.215-.189.373-.45.47-.782.066-.218.099-.44.099-.665z" />
+      </svg>
+    ),
   },
   {
-    icon: Landmark,
-    title: 'Riqueza Cultural',
-    desc: 'El legado de la civilización Muisca, artesanías hechas a mano y festividades que mantienen viva la tradición.',
+    name: 'Laravel',
+    bg: '#FF2D20',
+    textColor: '#fff',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
+        <path d="M23.642 5.434c.03.064.04.13.033.197v5.616a.334.334 0 01-.166.29l-4.735 2.714v5.376c0 .12-.063.23-.166.292l-9.927 5.676c-.016.008-.037.016-.053.024-.008 0-.016.008-.024.008-.02.008-.042.008-.064.008-.02 0-.045 0-.065-.008-.016-.008-.032-.016-.05-.024L.166 19.93A.332.332 0 010 19.64V3.872c0-.12.063-.23.166-.292L5.1.134a.33.33 0 01.333 0l4.935 2.816.003.002a.332.332 0 01.164.288v5.375l4.402-2.52V.334A.332.332 0 0115.1.04L20.034.28a.33.33 0 01.166.09l3.44 5.064zm-.829 5.17l-4.402-2.52V14.4l4.4-2.52v-1.277zM5.435.872L1.033 3.392l4.4 2.52 4.4-2.52L5.435.872zm-.333 5.17L.7 3.52v5.042l4.4 2.52V6.042zM14.77.872l-4.4 2.52 4.4 2.52 4.4-2.52-4.4-2.52zm4.735 5.17l-4.4-2.52v5.04l4.4-2.52V6.042zm-9.47 5.17l-4.4-2.52v5.04l4.4 2.52 4.4-2.52v-5.04l-4.4 2.52z" />
+      </svg>
+    ),
   },
   {
-    icon: UtensilsCrossed,
-    title: 'Gastronomía Auténtica',
-    desc: 'Sabores ancestrales como el cuchuco, la mazamorra chiquita y la chicha de maíz preparada de forma artesanal.',
+    name: 'React JS',
+    bg: '#20232a',
+    textColor: '#61DAFB',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
+        <path d="M12 10.11c1.03 0 1.87.84 1.87 1.89 0 1-.84 1.85-1.87 1.85-1.03 0-1.87-.85-1.87-1.85 0-1.05.84-1.89 1.87-1.89M7.37 20c.63.38 2.01-.2 3.6-1.7-.52-.59-1.03-1.23-1.51-1.9a22.7 22.7 0 01-2.4-.36c-.51 2.14-.32 3.61.31 3.96m.71-5.74l-.29-.51c-.11.29-.22.58-.29.86.27.06.57.11.88.16l-.3-.51m6.54-.5l.3-.51c-.31.05-.61.1-.88.16.07.28.18.57.29.86.29-.27.19.29.29-.51M12 20.5c.98 0 2.15-.85 3.06-2.33-.9-.7-1.68-1.5-2.32-2.36a25.5 25.5 0 01-1.48 0c-.64.86-1.42 1.66-2.32 2.36.91 1.48 2.08 2.33 3.06 2.33M12 3.5c-.98 0-2.15.85-3.06 2.33.9.7 1.68 1.5 2.32 2.36.5-.03.98-.03 1.48 0 .64-.86 1.42-1.66 2.32-2.36C14.15 4.35 12.98 3.5 12 3.5M16.63 4c-.63-.38-2.01.2-3.6 1.7.52.59 1.03 1.23 1.51 1.9.83.08 1.63.2 2.4.36.51-2.14.32-3.61-.31-3.96M7.37 4c-.63.35-.82 1.82-.31 3.96.77-.16 1.57-.28 2.4-.36.48-.67.99-1.31 1.51-1.9C9.38 4.2 8 3.62 7.37 4M16.63 20c.63-.35.82-1.82.31-3.96-.77.16-1.57.28-2.4.36-.48.67-.99 1.31-1.51 1.9 1.59 1.5 2.97 2.08 3.6 1.7M20.65 12c0-.85-1.15-1.66-2.9-2.16.36-1.6.2-2.87-.5-3.28-.7-.4-1.87.02-3.1.98a13 13 0 00-2.15-1.68C11.7 4.32 11.16 4 10.5 4c-.66 0-1.2.32-1.5.86A13 13 0 006.85 6.6c-1.23-.96-2.4-1.38-3.1-.98-.7.41-.86 1.68-.5 3.28C1.5 10.4.35 11.15.35 12c0 .85 1.15 1.66 2.9 2.16-.36 1.6-.2 2.87.5 3.28.7.4 1.87-.02 3.1-.98.66.61 1.4 1.16 2.15 1.68.3.54.84.86 1.5.86.66 0 1.2-.32 1.5-.86.75-.52 1.49-1.07 2.15-1.68 1.23.96 2.4 1.38 3.1.98.7-.41.86-1.68.5-3.28 1.75-.5 2.9-1.31 2.9-2.16z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'TypeScript',
+    bg: '#3178C6',
+    textColor: '#fff',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
+        <path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 011.306.34v2.458a3.95 3.95 0 00-.643-.361 5.093 5.093 0 00-.717-.26 5.453 5.453 0 00-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 00-.623.242c-.17.104-.3.229-.393.374a.888.888 0 00-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 01-1.012 1.085 4.38 4.38 0 01-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 01-1.84-.164 5.544 5.544 0 01-1.512-.493v-2.63a5.033 5.033 0 003.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.232.373-.374a1 1 0 00.125-.498.9.9 0 00-.098-.417 1.098 1.098 0 00-.29-.345 2.71 2.71 0 00-.483-.32 7.29 7.29 0 00-.665-.31c-.512-.212-.961-.432-1.35-.66a4.223 4.223 0 01-.973-.755 2.881 2.881 0 01-.588-.943 3.351 3.351 0 01-.196-1.184c0-.615.124-1.146.373-1.591a3.163 3.163 0 011.006-1.096 4.552 4.552 0 011.457-.633 7.106 7.106 0 011.703-.199zm-9.032.199H6.264v2.031h3.256V21.75h2.436V11.98H15.2V9.949z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'JavaScript',
+    bg: '#F7DF1E',
+    textColor: '#000',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
+        <path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l-.006-.056z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'MySQL',
+    bg: '#4479A1',
+    textColor: '#fff',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
+        <path d="M16.405 5.501c-.115 0-.193.014-.274.033v.013h.014c.054.104.146.19.238.274l.014.014.033-.016c.145-.09.256-.218.274-.37-.033.016-.049.023-.087.028a.434.434 0 00-.212.024zm5.078 8.44c-.096 0-.194.01-.283.022-.057.01-.115.02-.175.031-.38.07-.644.27-.85.558-.21.29-.29.638-.26.978.03.346.17.646.42.87.24.22.55.33.87.308.343-.022.658-.17.898-.417.237-.246.367-.57.37-.91.003-.337-.098-.658-.3-.918-.2-.264-.48-.424-.791-.522zm-3.024-.49c-.026.004-.056.008-.08.02-.296.14-.558.33-.778.57-.24.26-.41.57-.5.9-.074.27-.098.55-.074.83.024.27.1.53.22.766.12.24.285.45.49.62.205.17.445.29.702.347.256.058.527.054.78-.01.257-.065.5-.186.707-.355.208-.168.374-.38.49-.618.115-.237.18-.495.19-.76.005-.26-.04-.525-.136-.77-.097-.248-.245-.474-.43-.666-.188-.19-.412-.342-.657-.438-.245-.097-.507-.143-.77-.136l-.013.001zm-1.916-2.4a2.35 2.35 0 00-1.077.262c-.314.168-.572.41-.752.708-.177.3-.266.64-.258.986.01.35.12.685.32.97.2.285.474.505.79.638.317.133.663.174 1.003.12.34-.054.657-.2.917-.416.26-.218.452-.504.554-.82.1-.314.11-.65.026-.974-.086-.322-.254-.617-.49-.85-.233-.234-.524-.398-.84-.484-.113-.03-.227-.048-.343-.052l.15.002zm6.04-1.82c-.133.003-.265.015-.398.035-.28.042-.545.128-.79.256-.244.128-.466.3-.64.51-.174.21-.296.457-.358.72-.06.263-.062.54-.003.806.06.264.18.51.348.72.168.21.38.375.617.49.237.115.494.17.756.164.263-.006.52-.072.756-.194.235-.122.442-.296.604-.51.162-.213.276-.46.333-.722.057-.263.055-.536-.006-.8-.06-.26-.176-.51-.34-.72a1.765 1.765 0 00-.56-.488c-.208-.11-.44-.16-.676-.156l-.013.001.01-.001zM12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.97 16.38a2.56 2.56 0 01-.71.488 2.7 2.7 0 01-.87.226 2.77 2.77 0 01-.9-.076 2.65 2.65 0 01-.81-.376 2.73 2.73 0 01-.623-.648 2.8 2.8 0 01-.385-.877 2.9 2.9 0 01-.065-.98 2.87 2.87 0 01.266-.934 2.88 2.88 0 01.578-.802 2.86 2.86 0 01.84-.558 2.91 2.91 0 011.02-.24 2.93 2.93 0 011.033.112 2.9 2.9 0 01.922.484 2.87 2.87 0 01.672.78 2.86 2.86 0 01.35.99 2.88 2.88 0 01-.026 1.06 2.86 2.86 0 01-.29.882zm-10.62.248a2.88 2.88 0 01-.82.42 2.88 2.88 0 01-.94.14 2.88 2.88 0 01-.92-.16 2.88 2.88 0 01-.8-.45 2.88 2.88 0 01-.613-.72 2.88 2.88 0 01-.34-.92 2.88 2.88 0 01-.01-.97 2.88 2.88 0 01.28-.913 2.88 2.88 0 01.565-.773 2.88 2.88 0 01.815-.543 2.88 2.88 0 01.98-.237 2.88 2.88 0 011.023.11 2.88 2.88 0 01.912.484 2.88 2.88 0 01.663.778 2.88 2.88 0 01.34.99 2.88 2.88 0 01-.028 1.06 2.88 2.88 0 01-.29.88 2.88 2.88 0 01-.525.745 2.88 2.88 0 01-.28.24z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'PostgreSQL',
+    bg: '#336791',
+    textColor: '#fff',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
+        <path d="M23.5454 11.8945c-.0818-3.7066-2.0897-6.9987-5.4162-8.9093-.9688-.5569-2.0057-.9375-3.085-1.1406-.0742-.0137-.1484-.0254-.2226-.0371-1.9512-.2969-3.96-.0235-5.7617.7891C7.7099 3.302 6.4404 4.0664 5.4267 5.0977c-.6094.6211-1.1172 1.3183-1.5039 2.0859-.4609.9238-.707 1.9316-.707 2.9531 0 2.0273.8867 3.8867 2.373 5.1836.1875.1641.3887.3164.5996.457.3535.2324.707.418 1.084.5684-.1348.4785-.2344.9629-.2832 1.4629-.1289 1.3047.0879 2.6387.6406 3.8281.2695.582.6934 1.165 1.2949 1.6387.6016.4727 1.3535.7793 2.1504.8672.1172.0137.2344.0195.3516.0195 1.249 0 2.457-.5137 3.3418-1.4355.8848-.9219 1.4102-2.1934 1.4102-3.541 0-.1289-.0059-.2579-.0156-.3848.4199-.1934.8184-.4082 1.1953-.6426.5176-.3184.9922-.6836 1.4063-1.0996 1.4941-1.5117 2.3418-3.5684 2.3418-5.7695 0-.0097-.0018-.0195-.002-.0293zm-1.9248.9434c-.1328 1.4453-.6973 2.8242-1.6094 3.9004-.3232.3761-.6934.7148-1.1074 1.0039-.3086.209-.6348.3984-.9726.5664.0078-.2519.0078-.5039 0-.7539-.0293-.8086-.1621-1.6016-.3984-2.3691.0762-.0449.1523-.0918.2266-.1406.9121-.5879 1.6406-1.4121 2.1094-2.3867.0703-.1445.1348-.292.1914-.4395.3047.5293.4883 1.1406.5605 1.7617zM11.9999 4.9219c.8594 0 1.6992.1504 2.4922.4394.7871.2871 1.5039.7129 2.1211 1.2598.6152.5449 1.125 1.2109 1.4707 1.9551.3379.7285.5117 1.5273.5117 2.3418 0 .8144-.1738 1.6133-.5117 2.3418-.3457.7441-.8555 1.4102-1.4707 1.9551-.6172.5469-1.334.9727-2.1211 1.2598-.793.2891-1.6328.4394-2.4922.4394-.8594 0-1.6992-.1503-2.4922-.4394-.7871-.2871-1.5039-.7129-2.1211-1.2598-.6152-.5449-1.125-1.2109-1.4707-1.9551-.3379-.7285-.5117-1.5274-.5117-2.3418 0-.8145.1738-1.6133.5117-2.3418.3457-.7442.8555-1.4102 1.4707-1.9551.6172-.5469 1.334-.9727 2.1211-1.2598.793-.289 1.6328-.4394 2.4922-.4394z" />
+      </svg>
+    ),
+  },
+  
+  {
+    name: 'Docker',
+    bg: '#2496ED',
+    textColor: '#fff',
+    icon: (
+      <svg viewBox="0 0 24 24" className="size-8" fill="currentColor">
+        <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185V5.46c0 .103.082.186.185.186m0 2.716h2.118a.187.187 0 00.186-.185V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.186.186 0 00.184-.185V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.186.186 0 00.185-.185V6.29a.185.185 0 00-.184-.185H5.136a.186.186 0 00-.186.185v1.888c0 .102.084.185.186.185m5.893 2.734h2.118a.186.186 0 00.186-.186V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.186V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.184.185m-2.964 0h2.119a.185.185 0 00.185-.186V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.888c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.186V9.006a.185.185 0 00-.184-.186H2.109a.186.186 0 00-.185.186v1.888c0 .102.083.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.568l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288z" />
+      </svg>
+    ),
+  },
+]
+const softSkills = [
+  {
+    icon: Users,
+    title: 'Trabajo en Equipo',
+    desc: 'Colaboración efectiva en metodologías ágiles, fomentando un ambiente de respeto y crecimiento mutuo.',
+    color: 'from-blue-400 to-blue-600',
+  },
+  {
+    icon: Lightbulb,
+    title: 'Resolución de Problemas',
+    desc: 'Análisis crítico para crear soluciones lógicas, enfocadas en rendimiento y escalabilidad a largo plazo.',
+    color: 'from-indigo-400 to-indigo-600',
+  },
+  {
+    icon: MessageSquare,
+    title: 'Comunicación Asertiva',
+    desc: 'Capacidad para traducir requerimientos técnicos y de negocio, asegurando que todos estén en la misma página.',
+    color: 'from-violet-400 to-violet-600',
   },
 ]
 
-const container = { hidden: {}, show: { transition: { staggerChildren: 0.15 } } }
-const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }
+const container = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } }
+const item = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+}
+const softItem = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+}
 
 export default function Features() {
-  const { isWireframe: wf } = useWireframe()
   return (
-    <section
-      id="cultura"
-      className={`py-20 md:py-28 transition-colors duration-500 ${wf ? 'bg-gray-50' : 'bg-crema'}`}
-    >
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="habilidades" className="relative py-24 md:py-32 bg-white overflow-hidden">
+      {/* Decorative background */}
+      <div className="absolute top-0 left-1/2 w-screen -translate-x-1/2 h-1 bg-gradient-to-r from-transparent via-blue-100 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(99,102,241,0.04),transparent_60%),radial-gradient(ellipse_at_bottom_left,_rgba(59,130,246,0.04),transparent_60%)] pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl px-6 relative z-10">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="mx-auto max-w-2xl text-center"
+          className="mx-auto max-w-3xl text-center"
         >
-          {wf ? (
-            <>
-              <div className="mx-auto h-5 w-40 rounded bg-gray-300" />
-              <div className="mx-auto mt-3 h-8 w-72 rounded bg-gray-400" />
-            </>
-          ) : (
-            <>
-              <p className="font-script text-2xl text-rojo">Tres razones para venir</p>
-              <h2 className="mt-2 text-balance font-serif text-3xl font-bold text-verde md:text-4xl">
-                Un destino que despierta los sentidos
-              </h2>
-            </>
-          )}
+          <span className="font-mono text-sm font-bold tracking-widest text-blue-600 uppercase">
+            Mis Habilidades
+          </span>
+          <h2 className="mt-4 text-balance font-extrabold text-4xl text-slate-900 md:text-5xl lg:text-6xl tracking-tight">
+            Tecnologías y{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Soft Skills</span>
+          </h2>
+          <p className="mt-6 text-lg text-slate-500">
+            Un balance perfecto entre conocimientos técnicos profundos y habilidades interpersonales para llevar cada proyecto al éxito.
+          </p>
         </motion.div>
 
+        {/* ── TECH CARDS ── */}
         <motion.div
           variants={container}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true }}
-          className="mt-14 grid gap-8 md:grid-cols-3"
+          viewport={{ once: true, margin: "-100px" }}
+          className="mt-16 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4"
         >
-          {features.map((f) => (
+          {technologies.map((tech) => (
+            <motion.div
+              key={tech.name}
+              variants={item}
+              whileHover={{ y: -6, scale: 1.04 }}
+              className="group relative flex flex-col items-center gap-3 rounded-2xl p-5 cursor-default overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300"
+              style={{ backgroundColor: tech.bg }}
+            >
+              {/* Shimmer */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none" />
+              {/* Glow ring */}
+              <div
+                className="absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-40 blur-md transition-all duration-500"
+                style={{ backgroundColor: tech.bg }}
+              />
+              <div className="relative" style={{ color: tech.textColor }}>
+                {tech.icon}
+              </div>
+              <span
+                className="relative text-sm font-bold leading-tight text-center"
+                style={{ color: tech.textColor }}
+              >
+                {tech.name}
+              </span>
+              <span
+                className="relative text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                style={{ backgroundColor: 'rgba(0,0,0,0.25)', color: tech.textColor }}
+              >
+                {tech.level}
+              </span>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* ── SOFT SKILLS ── */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          className="mt-20 grid gap-8 md:grid-cols-3"
+        >
+          {softSkills.map((f) => (
             <motion.div
               key={f.title}
-              variants={item}
-              className={`rounded-2xl p-8 text-center transition-shadow ${
-                wf
-                  ? 'border-2 border-gray-300 bg-white shadow-none'
-                  : 'bg-background shadow-sm hover:shadow-md'
-              }`}
+              variants={softItem}
+              className="group relative rounded-3xl bg-white p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] border border-slate-100"
             >
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-slate-50/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <div
-                className={`mx-auto flex size-16 items-center justify-center rounded-full ${
-                  wf ? 'border-2 border-gray-400 bg-gray-100 text-gray-500' : 'bg-verde/10 text-verde'
-                }`}
+                className={`relative flex size-16 items-center justify-center rounded-2xl bg-gradient-to-tr ${f.color} text-white shadow-lg shadow-blue-500/20 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
               >
-                <f.icon className="size-8" strokeWidth={1.5} />
+                <f.icon className="size-8" strokeWidth={2} />
               </div>
-              {wf ? (
-                <>
-                  <div className="mx-auto mt-6 h-5 w-36 rounded bg-gray-400" />
-                  <div className="mx-auto mt-3 h-3 w-full rounded bg-gray-200" />
-                  <div className="mx-auto mt-2 h-3 w-5/6 rounded bg-gray-200" />
-                  <div className="mx-auto mt-2 h-3 w-3/4 rounded bg-gray-200" />
-                </>
-              ) : (
-                <>
-                  <h3 className="mt-6 font-serif text-xl font-bold text-cafe">{f.title}</h3>
-                  <p className="mt-3 text-pretty leading-relaxed text-muted-foreground">{f.desc}</p>
-                </>
-              )}
+              <h3 className="relative mt-8 text-2xl font-bold tracking-tight text-slate-900">{f.title}</h3>
+              <p className="relative mt-4 text-pretty leading-relaxed text-slate-500">{f.desc}</p>
             </motion.div>
           ))}
         </motion.div>

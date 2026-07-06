@@ -2,7 +2,6 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Inter, Satisfy } from 'next/font/google'
 import './globals.css'
-import { WireframeProvider } from '@/components/WireframeContext'
 
 const playfair = Playfair_Display({
   variable: '--font-playfair',
@@ -22,40 +21,39 @@ const satisfy = Satisfy({
 })
 
 export const metadata: Metadata = {
-  title: 'Sugamuxi · Vitrina Digital Turística de Boyacá',
+  title: 'Julián Chaparro · Desarrollador Web Full Stack',
   description:
-    'Descubre la Provincia de Sugamuxi en Boyacá, Colombia: el Lago de Tota, el Páramo de Ocetá, el legado Muisca, su gastronomía auténtica y sus seis municipios mágicos.',
+    'Portafolio de Julián Chaparro, programador enfocado en crear experiencias digitales excepcionales, limpias y altamente escalables.',
   generator: 'v0.app',
   keywords: [
-    'Sugamuxi',
-    'Boyacá',
-    'Colombia',
-    'turismo',
-    'Lago de Tota',
-    'Páramo de Ocetá',
-    'Sogamoso',
-    'Muisca',
+    'Portfolio',
+    'Programmer',
+    'Developer',
+    'Web Development',
+    'Software Engineer',
+    'React',
+    'Next.js',
   ],
   openGraph: {
-    title: 'Sugamuxi · Donde el cielo toca la tierra',
+    title: 'Julián Chaparro | Portafolio Tech',
     description:
-      'Vitrina digital turística de la Provincia de Sugamuxi, Boyacá, Colombia. Naturaleza, cultura y gastronomía en los Andes.',
+      'Explora mis últimos proyectos, habilidades técnicas y experiencia profesional como desarrollador de software.',
     type: 'website',
-    locale: 'es_CO',
-    siteName: 'Vitrina Digital Sugamuxi',
+    locale: 'en_US',
+    siteName: 'Dev Portfolio',
     images: [
       {
         url: '/hero.png',
         width: 1200,
         height: 630,
-        alt: 'Lago de Tota en la Provincia de Sugamuxi, Boyacá',
+        alt: 'Julián Chaparro Portfolio',
       },
     ],
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#2D5016',
+  themeColor: '#ffffff',
   colorScheme: 'light',
 }
 
@@ -67,14 +65,13 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${playfair.variable} ${inter.variable} ${satisfy.variable} bg-background`}
+      className={`${playfair.variable} ${inter.variable} ${satisfy.variable} bg-slate-50`}
     >
       <body className="font-sans antialiased">
-        <WireframeProvider>
-          {children}
-        </WireframeProvider>
+        {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   )
 }
+

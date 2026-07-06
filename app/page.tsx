@@ -2,26 +2,18 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import Features from '@/components/Features'
 import Destinos from '@/components/Destinos'
-import Experiencias from '@/components/Experiencias'
-import LagoBanner from '@/components/LagoBanner'
-import Galeria from '@/components/Galeria'
-import Gastronomia from '@/components/Gastronomia'
-import CTAFinal from '@/components/CTAFinal'
 import Footer from '@/components/Footer'
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-background">
+    <div className="relative min-h-screen bg-slate-50 selection:bg-blue-500/30">
       <Navbar />
-      <Hero />
-      <Features />
-      <Destinos />
-      <Experiencias />
-      <LagoBanner />
-      <Galeria />
-      <Gastronomia />
-      <CTAFinal />
-      <Footer />
-    </main>
+      <main className="w-full">
+        <Hero />
+        <Features />
+        <Destinos />
+        <Footer />
+      </main>
+    </div>
   )
 }
